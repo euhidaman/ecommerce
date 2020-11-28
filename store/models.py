@@ -18,6 +18,15 @@ class Product(models.Model):
 
 	def __str__(self):
 		return self.name
+	# Below property tells, tht if no image is uploaded,
+	# it will show broken image picture
+	@property
+	def imageURL(self):
+		try:
+			url = self.image.url
+		except:
+			url = ''
+		return url
 
 
 class Order(models.Model):
