@@ -65,5 +65,23 @@
 				<h5>Total:   $ {{ order.get_cart_total|floatformat:2 }}</h5>
 			</div>
 		</div>
-	</div>
+</div>
+
+  <script type="text/javascript">
+      var shipping = '{{order.shipping}}'
+
+      if (shipping == "False"){
+        document.getElementById('shipping-info').innerHTML = ''
+      }
+
+      var form = document.getElementById('form')
+
+      //the below event triggers, on clicking the submit button
+      form.addEventListener('submit',function(e){
+        e.preventDefault()
+        console.log('Form Submitted...')
+        document.getElementById('form-button').classList.add('hidden');
+        document.getElementById('payment-info').classList.remove('hidden');
+      })
+  </script>
 {% endblock content %}

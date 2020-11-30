@@ -17,7 +17,7 @@ def store(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0}
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
         # get_cart_items is a property of Order in models.py
         cartItems = order['get_cart_items']
 
@@ -38,7 +38,7 @@ def cart(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0}
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
         # get_cart_items is a property of Order in models.py
         cartItems = order['get_cart_items']
 
@@ -58,10 +58,10 @@ def checkout(request):
         cartItems = order.get_cart_items
     else:
         items = []
-        order = {'get_cart_total':0, 'get_cart_items':0}
+        order = {'get_cart_total':0, 'get_cart_items':0, 'shipping':False}
         cartItems = ['get_cart_items']
 
-    context = {'items':items, 'order':order, 'cartItems':cartItems}
+    context = {'items':items, 'order':order, 'cartItems':cartItems, 'shipping':False}
     return render(request, 'store/checkout.html', context)
 
 
@@ -94,5 +94,3 @@ def updateItem(request):
         orderItem.delete()
 
     return JsonResponse('Item was added', safe=False)
-
-#update cart quantity
