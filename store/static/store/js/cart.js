@@ -41,5 +41,7 @@ function updateUserOrder(productId, action){
   })
   .then((data) =>{
     console.log('Data:',data)
+    //below line is written, to refresh the page to increment the cart total in red on top right corner
+    location.reload()
   })
 }
