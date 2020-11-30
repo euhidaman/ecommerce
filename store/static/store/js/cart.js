@@ -34,6 +34,7 @@ function updateUserOrder(productId, action){
       'Content-Type':'application/json',
       'X-CSRFToken':csrftoken,
     },
+    // the below 'body' is being sent as a JSON string to 'updateItem' view in views.py
     body:JSON.stringify({'productId':productId, 'action':action})
   })
   .then((response) =>{
