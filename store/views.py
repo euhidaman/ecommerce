@@ -1,10 +1,14 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+import json
 from .models import  *
+
 
 def store(request):
     products = Product.objects.all()
     context = {"products":products}
     return render(request, 'store/store.html', context)
+
 
 def cart(request):
     if request.user.is_authenticated:
@@ -21,6 +25,7 @@ def cart(request):
     context = {'items':items, 'order':order}
     return render(request, 'store/cart.html', context)
 
+
 def checkout(request):
     # giving the same code as cart, bcz same, total data will be rendered in frontend
     if request.user.is_authenticated:
@@ -36,3 +41,12 @@ def checkout(request):
 
     context = {'items':items, 'order':order}
     return render(request, 'store/checkout.html', context)
+
+
+def updateItem(request):
+    data = json.loads(request.data)
+    productId = data['productId']
+    action = data['action']
+    print('Action :', action)
+    print('productId :',productId)
+    return JsonResponse('Item was added', safe=False)
