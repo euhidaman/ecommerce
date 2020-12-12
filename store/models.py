@@ -12,7 +12,7 @@ class Customer(models.Model):
 
 class Product(models.Model):
 	name = models.CharField(max_length=200)
-	price = models.FloatField()
+	price = models.DecimalField(max_digits=7, decimal_places=2)
 	digital = models.BooleanField(default=False,null=True, blank=True)
 	image = models.ImageField(null=True, blank=True)
 
@@ -46,7 +46,7 @@ class Order(models.Model):
 			# if, a product is not digital, then it has to be shipped
 			if i.product.digital == False:
 				shipping = True
-		return shipping		
+		return shipping
 
 	@property
 	def get_cart_total(self):
