@@ -32,7 +32,7 @@
 							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Zip code..">
+							<input class="form-control" type="text" name="country" placeholder="Country..">
 						</div>
 					</div>
 
@@ -43,8 +43,9 @@
 
 			<br>
 			<div class="box-element hidden" id="payment-info">
-				<small>Paypal Options</small>
-        <button id="make-payment">Make Payment</button>
+				<p>Payment Options :</p>
+        <div id="paypal-button-container"></div>
+        <!--button id="make-payment">Make Payment</button-->
 			</div>
 
 		</div>
@@ -59,19 +60,55 @@
 				<div class="cart-row">
 					<div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}"></div>
 					<div style="flex:2"><p>{{ item.product.name }}</p></div>
-					<div style="flex:1"><p>$ {{ item.product.price|floatformat:2 }}</p></div>
+					<div style="flex:1"><p>&#8377; {{ item.product.price|floatformat:2 }}</p></div>
 					<div style="flex:1"><p>{{ item.quantity }}</p></div>
 				</div>
         {% endfor %}
 				<h5>Items:   {{ order.get_cart_items }}</h5>
-				<h5>Total:   $ {{ order.get_cart_total|floatformat:2 }}</h5>
+				<h5>Total:   &#8377; {{ order.get_cart_total|floatformat:2 }}</h5>
 			</div>
 		</div>
 </div>
 
+  <script src="https://www.paypal.com/sdk/js?client-id=AfFqejBbe5PBPFCVYaP3d92wqYx_HnfM-m_I00Llfg5dDqjDqWZHaNIAQrcnfVQ69h2pcxdS2RPOfXxN&currency=INR"></script>
+
+  <script>
+    var total = '{{order.get_cart_total}}'
+        // Render the PayPal button into #paypal-button-container
+        paypal.Buttons({
+
+          style:{
+            color: 'blue',
+            shape: 'pill',
+            size: 'responsive',
+            label: 'paypal',
+          },
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: parseFloat(total).toFixed(2)
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    submitFormData()
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+    </script>
+
+
   <script type="text/javascript">
       var shipping = '{{order.shipping}}'
-      var total = '{{order.get_cart_total}}'
+
 
       if (shipping == "False"){
         document.getElementById('shipping-info').innerHTML = ''
@@ -103,9 +140,11 @@
         document.getElementById('payment-info').classList.remove('hidden');
       })
 
+      /*
       document.getElementById('make-payment').addEventListener('click',function(e){
-        submitFormData()
+
       })
+      */
 
       function submitFormData(){
         console.log('Payment button clicked')

@@ -84,6 +84,7 @@ def processOrder(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
 
     else:
+        # guestOrder function is present in utils.py
         customer, order = guestOrder(request, data)
 
     total = float(data['form']['total'])
@@ -104,5 +105,3 @@ def processOrder(request):
             )
 
     return JsonResponse("Payment submitted...",safe=False)
-
-# guest order function
