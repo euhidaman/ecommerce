@@ -8,5 +8,3 @@ This Web Application is made with the help of the following -->
  - Python web framework -- **Django**
  - Python Imaging Library -- **Pillow**
 <br/>
-
-Project Credits ---> [Dennis Ivanov](https://www.dennisivy.com/) 
